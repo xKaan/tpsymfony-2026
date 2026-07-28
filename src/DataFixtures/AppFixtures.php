@@ -7,6 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Article;
 use App\Entity\Category;
 use Faker\Factory;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
@@ -19,6 +20,10 @@ class AppFixtures extends Fixture
         "Technologie",
         "Économie"
     ];
+
+    public function __construct(private SluggerInterface $slugger)
+    {
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -33,8 +38,12 @@ class AppFixtures extends Fixture
         }
 
         for ($i = 0; $i < self::NB_ARTICLES; $i++) {
+            $title = $faker->realText(50);
+            $slug = strtolower($this->slugger->slug($title));
+
             $article = new Article();
-            $article->setTitle($faker->realText(50))
+            $article->setTitle($title)
+                ->setSlug($slug)
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-2 years', 'now')))
                 ->setContent($faker->paragraphs($faker->numberBetween(3, 9), true))
                 ->setVisible($faker->boolean(80))

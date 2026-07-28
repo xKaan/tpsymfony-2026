@@ -23,7 +23,7 @@ final class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/article/{id}', name: 'article_item')]
+    #[Route('/article/{slug}', name: 'article_item')]
     public function item(Article $article): Response
     {
         return $this->render('article/item.html.twig', [
