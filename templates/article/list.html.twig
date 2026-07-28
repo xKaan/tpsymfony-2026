@@ -9,7 +9,9 @@
 
   {% for article in articles %}
     <div>
-      <p>{{ article.title }}</p>
+      <p>
+        <a href="{{ path('article_item', { id: article.id }) }}">{{ article.title }}</a>
+      </p>
       <div>{{ article.createdAt|date('d/m/y') }}</div>
     </div>
   {% else %}
