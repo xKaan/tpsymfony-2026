@@ -23,6 +23,9 @@ final class NewsletterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($newsletter);
             $em->flush();
+
+            $this->addFlash('success', "Merci, votre inscription a bien été prise en compte");
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('newsletter/subscribe.html.twig', [
