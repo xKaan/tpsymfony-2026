@@ -16,6 +16,15 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function findRecentVisible(int $limit): array
+    {
+        return $this->findBy(
+            ['visible' => true],
+            ['createdAt' => 'DESC'],
+            $limit
+        );
+    }
+
     //    /**
     //     * @return Article[] Returns an array of Article objects
     //     */
